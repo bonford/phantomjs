@@ -10,7 +10,7 @@ page.open('http://finance.yahoo.com/stock-center/?bypass=true', function(status)
    // page.render('example.png');
  
   }
-  console.log(doc.title);
+  console.log(page.plainText);
    
   phantom.exit();
 });
