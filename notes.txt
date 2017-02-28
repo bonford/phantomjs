@@ -1,0 +1,10 @@
+adust tasks.json for build parameters
+note: when you configure user tools in editplus you've been doing builds without realizing without
+Ctrl-Shft-B runs the build (in this case, phantomjs)
+
+See here for more details:
+https://code.visualstudio.com/Docs/editor/tasks
+
+To do: 
+multiple tasks in one tasks.json
+set up an environment that runs javascript for tests
