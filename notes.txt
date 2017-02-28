@@ -8,3 +8,6 @@ https://code.visualstudio.com/Docs/editor/tasks
 To do: 
 multiple tasks in one tasks.json
 set up an environment that runs javascript for tests
+
+use ctrl-alt-n to run code snippets (any language)
+see here for details: https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
