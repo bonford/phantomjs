@@ -2,9 +2,23 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
+    "tasks": [
+        {
+     "taskName": "phantomjs",
     "command": "phantomjs",
     "isShellCommand": true,
     "args": ["${file} ", ">", "output.txt","&&","type","output.txt"],
     "showOutput": "always",
     "echoCommand": true
+        },
+      {
+     "taskName": "node",
+    "command": "node",
+    "isShellCommand": true,
+    "args": ["${fileBasenameNoExtension}"],
+    "showOutput": "always",
+    "echoCommand": true,
+    "isTestCommand": true
+        }
+    ]
 }
