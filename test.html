@@ -81,11 +81,10 @@
         var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
         var companies = rootDiv.getElementsByClassName("finance-add-follow-class");
         var prices = rootDiv.getElementsByClassName("l84");
-        var changes = rootDiv.getElementsByClassName("c63");
-        var percentChanges = rootDiv.getElementsByClassName("pp0");
+        var changes = rootDiv.getElementsByClassName("c63");      
         console.log("percentChanges:" + percentChanges[0]);
         var times = rootDiv.getElementsByClassName("t10");
-        var volumes = rootDiv.getElementsByClassName("v53");
+      
 
         var percentChanges = rootDiv.getElementsByClassName('');
         console.log(companies);
@@ -94,16 +93,20 @@
             var symbol = companies[i].text.replace("?", "");
             var price = prices[i].innerHTML;
             var change = changes[i].innerHTML;
-           // var percentChange = percentChanges[0].innerHTML;
+            var id = "yfs_pp0_" + symbol.toLowerCase();           
+            var percentChange = document.getElementById(id).innerHTML;
+
             var time = times[i].innerHTML;
-            var volumes = volumes[i].innerHTML;
+
+            id = "yfs_v53_" + symbol.toLowerCase();
+            var volumes = document.getElementById(id).innerHTML;;
 
             document.write(
                 company + " " +
                 symbol + " " +
                 price + " " +
                 change + " " +
-               // percentChange + " " +
+                percentChange + " " +
                 time + " " +
                 volumes + "<br>"
             );
