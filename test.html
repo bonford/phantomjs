@@ -74,32 +74,42 @@
     </div>
 
     <script>
-        // get rid of buttons, they're messing up the data
-
-
-
+     
         var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
-        var companies = rootDiv.getElementsByClassName("finance-add-follow-class");
-        var prices = rootDiv.getElementsByClassName("l84");
-        var changes = rootDiv.getElementsByClassName("c63");      
-        console.log("percentChanges:" + percentChanges[0]);
-        var times = rootDiv.getElementsByClassName("t10");
-      
+        var companies = rootDiv.getElementsByClassName("finance-add-follow-class");        
 
-        var percentChanges = rootDiv.getElementsByClassName('');
+      
         console.log(companies);
         for (var i = 0; i < companies.length; i++) {
+
+            // company
             var company = companies[i].title;
+
+            //symbol
             var symbol = companies[i].text.replace("?", "");
-            var price = prices[i].innerHTML;
-            var change = changes[i].innerHTML;
-            var id = "yfs_pp0_" + symbol.toLowerCase();           
+
+            // lower case symbol (used to build id)
+            var symLower = symbol.toLowerCase();
+
+            // price
+            var id = "yfs_l84_" + symLower;           
+            var price = document.getElementById(id).innerHTML;
+
+            // change
+            id = "yfs_c63_" + symLower;           
+            var change = document.getElementById(id).innerHTML;
+
+           // percentage change
+            id = "yfs_pp0_" + symLower;         
             var percentChange = document.getElementById(id).innerHTML;
 
-            var time = times[i].innerHTML;
+            // time           
+            id = "yfs_t10_" + symLower;         
+            var time = document.getElementById(id).innerHTML;
 
-            id = "yfs_v53_" + symbol.toLowerCase();
-            var volumes = document.getElementById(id).innerHTML;;
+            // volume
+            id = "yfs_v53_" + symLower; 
+            var volume = document.getElementById(id).innerHTML;;
 
             document.write(
                 company + " " +
@@ -108,7 +118,7 @@
                 change + " " +
                 percentChange + " " +
                 time + " " +
-                volumes + "<br>"
+                volume + "<br>"
             );
 
         }
