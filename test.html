@@ -74,68 +74,69 @@
     </div>
 
     <script>
-     
-        var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
-        var companies = rootDiv.getElementsByClassName("finance-add-follow-class");        
-        var movers = [];
-      
-        console.log(companies);
-        for (var i = 0; i < companies.length; i++) {
+       ( function() {
+            var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
+            var companies = rootDiv.getElementsByClassName("finance-add-follow-class");
+            var movers = [];
 
-            // company
-            var company = companies[i].title;
+            console.log(companies);
+            for (var i = 0; i < companies.length; i++) {
 
-            //symbol
-            var symbol = companies[i].text.replace("?", "");
+                // company
+                var company = companies[i].title;
 
-            // lower case symbol (used to build id)
-            var symLower = symbol.toLowerCase();
+                //symbol
+                var symbol = companies[i].text.replace("?", "");
 
-            // price
-            var id = "yfs_l84_" + symLower;           
-            var price = document.getElementById(id).innerHTML;
+                // lower case symbol (used to build id)
+                var symLower = symbol.toLowerCase();
 
-            // change
-            id = "yfs_c63_" + symLower;           
-            var change = document.getElementById(id).innerHTML;
+                // price
+                var id = "yfs_l84_" + symLower;
+                var price = document.getElementById(id).innerHTML;
 
-           // percentage change
-            id = "yfs_pp0_" + symLower;         
-            var percentChange = document.getElementById(id).innerHTML;
+                // change
+                id = "yfs_c63_" + symLower;
+                var change = document.getElementById(id).innerHTML;
 
-            // time           
-            id = "yfs_t10_" + symLower;         
-            var time = document.getElementById(id).innerHTML;
+                // percentage change
+                id = "yfs_pp0_" + symLower;
+                var percentChange = document.getElementById(id).innerHTML;
 
-            // volume
-            id = "yfs_v53_" + symLower; 
-            var volume = document.getElementById(id).innerHTML;
+                // time           
+                id = "yfs_t10_" + symLower;
+                var time = document.getElementById(id).innerHTML;
 
-            var mm = new mover(company, symbol, price, change, percentChange, time, volume);
-            movers.push(mm);
+                // volume
+                id = "yfs_v53_" + symLower;
+                var volume = document.getElementById(id).innerHTML;
 
-            document.write(
-                company + " " +
-                symbol + " " +
-                price + " " +
-                change + " " +
-                percentChange + " " +
-                time + " " +
-                volume + "<br>"
-            );
+                var mm = new mover(company, symbol, price, change, percentChange, time, volume);
+                movers.push(mm);
 
-        }
-        console.log(movers);
+                document.write(
+                    company + " " +
+                    symbol + " " +
+                    price + " " +
+                    change + " " +
+                    percentChange + " " +
+                    time + " " +
+                    volume + "<br>"
+                );
 
-        function mover(company, symbol, price, change, percentChange, time, volume ) {
-            this.company = company;
-            this.symbol = symbol;
-            this.price = price;
-            this.change = change;
-            this.percentageChange = percentChange;
-            this.time = time;
-            this.volume = volume;
-        }
+            }
+            console.log(movers);
+
+            function mover(company, symbol, price, change, percentChange, time, volume) {
+                this.company = company;
+                this.symbol = symbol;
+                this.price = price;
+                this.change = change;
+                this.percentageChange = percentChange;
+                this.time = time;
+                this.volume = volume;
+            }
+        } ());
     </script>
 </body>
 
