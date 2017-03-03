@@ -1,4 +1,5 @@
-import "fd_getMovers.js";
+filename = './fd_getMovers.js';
+injected = phantom.injectJs(filename);
 
 var page = require('webpage').create();
 page.onResourceRequested = function (req) {
@@ -12,7 +13,8 @@ page.open('http://finance.yahoo.com/stock-center/?bypass=true', function(status)
   console.log("Status: " + status);
   if(status === "success") {
 	  var doc = page.evaluate(function() {
-          getMovers();
+          var movers = getMovers();
+          console.log(movers);
 		 
     return document;
 	 
