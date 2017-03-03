@@ -9,7 +9,8 @@
     "isShellCommand": true,
     "args": ["${file} ", ">", "output.txt","&&","type","output.txt"],
     "showOutput": "always",
-    "echoCommand": true
+    "echoCommand": true,
+    "isBuildCommand": true
         },
       {
      "taskName": "node",
