@@ -11,3 +11,8 @@ set up an environment that runs javascript for tests
 
 use ctrl-alt-n to run code snippets (any language)
 see here for details: https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
+
+use old versions of phantomjs and chrome to debug
+
+sample command: C:\xampp\htdocs\phantomjs>c://phantomjsold/phantomjsold --remote-debugger-port=9000  ute.js
+open up chrome browser manually from c://oldchrome/

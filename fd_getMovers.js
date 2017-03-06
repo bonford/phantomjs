@@ -1,4 +1,8 @@
-(function () {
+
+
+    function testLog() {
+        console.log("log tested");
+    }
 
     function getMovers() {
         var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
@@ -64,4 +68,3 @@
         this.time = time;
         this.volume = volume;
     }
-}());
