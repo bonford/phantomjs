@@ -4,32 +4,27 @@ filename = './fd_getMovers.js';
 
 
 var page = require('webpage').create();
-/*
-page.onResourceRequested = function (req) {
-    console.log('requested: ' + JSON.stringify(req, undefined, 4));
+page.onConsoleMessage = function(msg) {
+    console.log(msg);
 };
-
-page.onResourceReceived = function (res) {
-    console.log('received: ' + JSON.stringify(res, undefined, 4));
-};
-*/
+// not working, try a simpler example
 page.open('http://finance.yahoo.com/stock-center/?bypass=true', function(status) {
     page.injectJs(filename);
-  console.log("Status: " + status);
-  if(status === "success") {
-	  var doc = page.evaluate(function() {
-          var movers = getMovers();
-          testLog();
-          console.log(movers);
-		 
-    return document;
-	 
-  });
-   // page.render('example.png');
- 
-  }
-  
-  //console.log(page.plainText);
-   
-  phantom.exit();
+    // Check for page load success
+    if (status !== "success") {
+        console.log("Unable to access network");
+    } else {
+        // Wait for 'signin-dropdown' to be visible
+        waitFor(function() {
+            // Check in the page if a specific element is now visible
+            return page.evaluate(function() {
+                return document.getElementById("yui3-css-stamp");
+            });
+        }, function() {
+           console.log("The gainers tab should be visible now");
+           phantom.exit();
+        });
+    }
 });
+  
+  

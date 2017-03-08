@@ -75,7 +75,7 @@
 
     <script>
         (function () {
-
+            getMovers();   
             function getMovers() {
                 var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
                 var companies = rootDiv.getElementsByClassName("finance-add-follow-class");
@@ -127,8 +127,9 @@
                     );
 
                 }
-                return movers;
                 console.log(movers);
+                return movers;
+                
             }
 
             function mover(company, symbol, price, change, percentChange, time, volume) {

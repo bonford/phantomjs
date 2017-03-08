@@ -1,9 +1,85 @@
-=====================================================================movers=============================================================================================
+<html>
+    <head></head>
+    <script>
+        window.addEventListener("DOMContentLoaded", function(){
+   getMovers();
+
+        },false);
+     
+         function getMovers() {
+        var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
+        var companies = rootDiv.getElementsByClassName("finance-add-follow-class");
+        var movers = [];
+
+        console.log(companies);
+        for (var i = 0; i < companies.length; i++) {
+
+            // company
+            var company = companies[i].title;
+
+            //symbol
+            var symbol = companies[i].text.replace("?", "");
+
+            // lower case symbol (used to build id)
+            var symLower = symbol.toLowerCase();
+
+             try {
+            // price
+            var id = "yfs_l84_" + symLower;
+            var price = document.getElementById(id).innerHTML;
+             }
+             catch(error){
+                 console.log("in error", document)
+             }
+
+            // change
+            id = "yfs_c63_" + symLower;
+            var change = document.getElementById(id).innerHTML;
+
+            // percentage change
+            id = "yfs_pp0_" + symLower;
+            var percentChange = document.getElementById(id).innerHTML;
+
+            // time           
+            id = "yfs_t10_" + symLower;
+            var time = document.getElementById(id).innerHTML;
+
+            // volume
+            id = "yfs_v53_" + symLower;
+            var volume = document.getElementById(id).innerHTML;
+
+            var mm = new mover(company, symbol, price, change, percentChange, time, volume);
+            movers.push(mm);
+
+            document.write(
+                company + " " +
+                symbol + " " +
+                price + " " +
+                change + " " +
+                percentChange + " " +
+                time + " " +
+                volume + "<br>"
+            );
+
+        }
+        return movers;
+        console.log(movers);
+    }
+
+    function mover(company, symbol, price, change, percentChange, time, volume) {
+        this.company = company;
+        this.symbol = symbol;
+        this.price = price;
+        this.change = change;
+        this.percentageChange = percentChange;
+        this.time = time;
+        this.volume = volume;
+    }
+
+        </script>
 
 
-
-
-
+<body>
 
 <div role="tabpanel" id="mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1" class=" Selected" data-start="0" data-count="10" data-content="mostactive">
         	<div class="original" id="yui_3_18_1_1_1488305648745_576">
@@ -172,8 +248,8 @@
                 <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-30-0-7 "><a href="/echarts?s=BASI&amp;t=1d" data-rapid_p="50"><img src="http://chart.finance.yahoo.com/instrument/1.0/BASI/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="BASI"></a></td>
             </tr>
             <tr>
-                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-30-0-0 "><span class="finance-follow-quote-container follow-quote-area"><a href="/q?s=GRAM" class="finance-add-follow-class Fw-n no-pjax visited" title="Graña y Montero S.A.A." data-rapid_p="51">GRAM<button class="follow-quote rapid-noclick-resp follow-quote-follow Pos-a" data-flw-quote="GRAM" data-rapid_p="52"><i class="Icon">?</i></button></a></span></td>
-                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-30-0-1 "><a href="/q?s=GRAM" class="Fw-n no-pjax" data-ticker="GRAM" data-name="Graña y Montero S.A.A." data-rapid_p="53">Graña y Montero S.A.A.</a></td>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-30-0-0 "><span class="finance-follow-quote-container follow-quote-area"><a href="/q?s=GRAM" class="finance-add-follow-class Fw-n no-pjax visited" title="Graï¿½a y Montero S.A.A." data-rapid_p="51">GRAM<button class="follow-quote rapid-noclick-resp follow-quote-follow Pos-a" data-flw-quote="GRAM" data-rapid_p="52"><i class="Icon">?</i></button></a></span></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-30-0-1 "><a href="/q?s=GRAM" class="Fw-n no-pjax" data-ticker="GRAM" data-name="Graï¿½a y Montero S.A.A." data-rapid_p="53">Graï¿½a y Montero S.A.A.</a></td>
                 <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-30-0-2 "><span class="l84" id="yfs_l84_gram">3.0547</span></td>
                 <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-30-0-3 "><span class="c63" id="yfs_c63_gram">+0.6147</span></td>
                 <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-30-0-4 "><span class="pp0" id="yfs_pp0_gram">+25.19%</span></td>
@@ -361,8 +437,8 @@
                 <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-38-0-7 "><a href="/echarts?s=MEDP&amp;t=1d" data-rapid_p="111"><img src="http://chart.finance.yahoo.com/instrument/1.0/MEDP/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="MEDP"></a></td>
             </tr>
             <tr>
-                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-38-0-0 "><span class="finance-follow-quote-container follow-quote-area"><a href="/q?s=CIG-C" class="finance-add-follow-class Fw-n no-pjax visited" title="Companhia Energética de Minas Gerais S.A." data-rapid_p="112">CIG-C<button class="follow-quote rapid-noclick-resp follow-quote-follow Pos-a" data-flw-quote="CIG-C" data-rapid_p="113"><i class="Icon">?</i></button></a></span></td>
-                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-38-0-1 "><a href="/q?s=CIG-C" class="Fw-n no-pjax" data-ticker="CIG-C" data-name="Companhia Energética de Minas Gerais S.A." data-rapid_p="114">Companhia Energética de Minas Gerais S.A.</a></td>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-38-0-0 "><span class="finance-follow-quote-container follow-quote-area"><a href="/q?s=CIG-C" class="finance-add-follow-class Fw-n no-pjax visited" title="Companhia Energï¿½tica de Minas Gerais S.A." data-rapid_p="112">CIG-C<button class="follow-quote rapid-noclick-resp follow-quote-follow Pos-a" data-flw-quote="CIG-C" data-rapid_p="113"><i class="Icon">?</i></button></a></span></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-38-0-1 "><a href="/q?s=CIG-C" class="Fw-n no-pjax" data-ticker="CIG-C" data-name="Companhia Energï¿½tica de Minas Gerais S.A." data-rapid_p="114">Companhia Energï¿½tica de Minas Gerais S.A.</a></td>
                 <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-38-0-2 "><span class="l84" id="yfs_l84_cig-c">3.60</span></td>
                 <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-38-0-3 "><span class="c63" id="yfs_c63_cig-c">-0.78</span></td>
                 <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-38-0-4 "><span class="pp0" id="yfs_pp0_cig-c">-17.81%</span></td>
@@ -407,3 +483,6 @@
         	    </div>
         	</div>
             </div>
+
+</body>
+</html>

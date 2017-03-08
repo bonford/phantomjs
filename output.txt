@@ -1,6 +1,2 @@
-Status: success
-TypeError: null is not an object (evaluating 'document.getElementById(id).innerHTML')
-
-  phantomjs://code/fd_getMovers.js:26 in getMovers
-  :2
-  :8
+yui: NOT loaded: dom-deprecated
+yui: NOT loaded: node-deprecated
