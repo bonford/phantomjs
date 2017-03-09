@@ -11,11 +11,12 @@ page.onConsoleMessage = function(msg) {
 };
 // not working, try a simpler example
 //page.open('http://finance.yahoo.com/stock-center/?bypass=true', function(status) {
-page.open('http://finance.yahoo.com/stock-center/?bypass=true#mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1', function(status) {
+page.open('https://www.msn.com/en-us/money/markets/marketmovers', function(status) {
     //page.injectJs(filename);
     // Check for page load success
     if (status !== "success") {
         console.log("Unable to access network");
+        phantom.exit();
     } else {
         // Wait for 'signin-dropdown' to be visible
         console.log("before waitfor");
@@ -23,7 +24,7 @@ page.open('http://finance.yahoo.com/stock-center/?bypass=true#mod_85ac7b2b_640f_
     
     check: function () {
         return page.evaluate(function() {            
-            var el = document.getElementById("yui_3_18_1_1_1489035035128_389");
+            var el = document.getElementById("actives");
             var style = window.getComputedStyle(el);
              //console.log("just before waitfor return", document.getElementById("nav-tv"));
              if (!style){
@@ -36,7 +37,10 @@ page.open('http://finance.yahoo.com/stock-center/?bypass=true#mod_85ac7b2b_640f_
         });
     },
     success: function () {
+        
         var title = page.evaluate(function() {
+            var el = document.getElementById("actives");
+            console.log(el);
     return document.title;
   });
   console.log('Page title is ' + title);
