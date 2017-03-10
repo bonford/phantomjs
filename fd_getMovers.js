@@ -1,80 +1,59 @@
 
 
-    function testLog() {
-        console.log("log tested");
-    }
+       
+            
+           // console.clear();
+           // console.log(allMovers);
 
-    function getMovers() {
-        var rootDiv = document.getElementById("mod_85ac7b2b_640f_323f_a1c1_00b2f4865d18-tab1");
-        var companies = rootDiv.getElementsByClassName("finance-add-follow-class");
-        var movers = [];
+            function getAllMovers() {
+                debugger;
+                var actives = getMovers("actives");
+                var gainers = getMovers("gainers");
+                var losers = getMovers("losers");
+                var allMovers = [actives, gainers, losers];
+                return allMovers;
+            }
 
-        console.log(companies);
-        for (var i = 0; i < companies.length; i++) {
+            function getMovers(type) {
+                var movers = [];
+                var el = document.getElementById(type);
+                var children = el.getElementsByTagName("ul");
+                for (var i = 0; i < children.length; i++) {
+                    var item = children[i].getElementsByClassName("company");
+                    var company = item[0].getElementsByClassName("company-name")[0].textContent.trim();
+                    var symbol = item[0].getElementsByClassName("ticker")[0].textContent.trim();
+                    console.log(company, symbol);
 
-            // company
-            var company = companies[i].title;
+                    item = children[i].getElementsByClassName("price")[0];
+                    var price = item.getElementsByClassName("start")[0].textContent.trim();
+                    console.log(price);
 
-            //symbol
-            var symbol = companies[i].text.replace("?", "");
+                    var change = children[i].getElementsByClassName("change")[0].textContent.trim();
+                    console.log(change);
 
-            // lower case symbol (used to build id)
-            var symLower = symbol.toLowerCase();
+                    var percentChange = children[i].getElementsByClassName("changepercent")[0].textContent.trim();
+                    console.log(percentChange);
 
-            // price
-            var id = "yfs_l84_" + symLower;
-            console.log("id: ", id);
-            var price = document.getElementById(id).innerHTML;
+                    item = children[i].getElementsByClassName("volume")[0];
+                    var volume = item.getElementsByClassName("start")[0].textContent.trim();
+                    console.log(volume);
 
-            // change
-            id = "yfs_c63_" + symLower;
-            var change = document.getElementById(id).innerHTML;
-
-            // percentage change
-            id = "yfs_pp0_" + symLower;
-            var percentChange = document.getElementById(id).innerHTML;
-
-            // time           
-            id = "yfs_t10_" + symLower;
-            var time = document.getElementById(id).innerHTML;
-
-            // volume
-            id = "yfs_v53_" + symLower;
-            var volume = document.getElementById(id).innerHTML;
-
-            var mm = new mover(company, symbol, price, change, percentChange, time, volume);
-            movers.push(mm);
-
-            document.write(
-                company + " " +
-                symbol + " " +
-                price + " " +
-                change + " " +
-                percentChange + " " +
-                time + " " +
-                volume + "<br>"
-            );
-
-        }
-        console.log(movers);
-        return movers;
-      
-    }
-
-    function mover(company, symbol, price, change, percentChange, time, volume) {
-        this.company = company;
-        this.symbol = symbol;
-        this.price = price;
-        this.change = change;
-        this.percentageChange = percentChange;
-        this.time = time;
-        this.volume = volume;
-    }
-
-   
-
-
-
-
-
-    
+                    var mm = new mover(type, company, symbol, price, change, percentChange, volume);
+                    movers.push(mm);
+                    console.log(mm);
+                }
+               // console.clear();
+                return movers;
+                console.log(movers);
+            }
+            function mover(type, company, symbol, price, change, percentChange, volume) {
+                this.type = type;
+                this.company = company;
+                this.symbol = symbol;
+                this.price = price;
+                this.change = change;
+                this.percentageChange = percentChange;
+                this.volume = volume;
+            }
+       
+  

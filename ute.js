@@ -1,6 +1,6 @@
 debugger;
 
-//filename = './fd_getMovers.js';
+filename = './fd_getMovers.js';
 
 
 var page = require('webpage').create();
@@ -12,7 +12,7 @@ page.onConsoleMessage = function(msg) {
 // not working, try a simpler example
 //page.open('http://finance.yahoo.com/stock-center/?bypass=true', function(status) {
 page.open('https://www.msn.com/en-us/money/markets/marketmovers', function(status) {
-    //page.injectJs(filename);
+    page.injectJs(filename);
     // Check for page load success
     if (status !== "success") {
         console.log("Unable to access network");
@@ -38,12 +38,11 @@ page.open('https://www.msn.com/en-us/money/markets/marketmovers', function(statu
     },
     success: function () {
         
-        var title = page.evaluate(function() {
-            var el = document.getElementById("actives");
-            console.log(el);
-    return document.title;
+        var allMovers = page.evaluate(function() {
+            
+    return getAllMovers();
   });
-  console.log('Page title is ' + title);
+  console.log('All movers ' + allMovers);
   phantom.exit();
     },
     error: function () {
