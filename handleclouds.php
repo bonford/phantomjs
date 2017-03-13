@@ -283,9 +283,11 @@ class dataRipper {
  */
     public function getMoverArrayFromDb()
 	{
+		
 		$this->datatype == 'pricedeltas' ? $mover_id = 1 : $mover_id = 2;
 		$query = "select json from movers where mover_id = " . $mover_id;
-
+		echo "getMoverArrayFromDb: " . $query . "\n";
+         /*
 		$result = mysql_query($query) or die ('Query failed: ' . mysql_error());
 
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
@@ -293,6 +295,7 @@ class dataRipper {
 			$json = $row['json'];
         }
 		return $json;
+		*/
 	}
 
 
@@ -303,8 +306,8 @@ class dataRipper {
 	{		
 		$this->datatype == 'pricedeltas' ? $mover_id = 1 : $mover_id = 2;
 		$query = "update movers set json = '" . mysql_real_escape_string($json) . "' where mover_id = " . $mover_id;
-		//echo $query;	    
-		$result = mysql_query($query) or die ('Query failed: ' . mysql_error());      
+		echo "updateMoverDb query: " . $query . "\n";	    
+		//$result = mysql_query($query) or die ('Query failed: ' . mysql_error());      
 	}
 
 
