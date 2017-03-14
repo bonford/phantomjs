@@ -33,8 +33,7 @@ $gls= array();
 	         $temp->symbol = $json[$i]->tkr;
 	         $temp->name =  $json[$i]->name;
 
-			 $change = str_replace(array('+','-','%'), array('','',''), $json[$i]->changePercent);
-			 $temp->rawnumber = $change;
+			
 
 			 if ( $json[$i]->changeIndicator === 'increase'){
 				 $temp->direction = 'Up';
@@ -43,22 +42,22 @@ $gls= array();
 			 			 if ( $json[$i]->changeIndicator === 'decrease'){
 				 $temp->direction = 'Down';
 			 }
-             /*
-	         $temp->direction =  $catch[3][$i];
-	       
 
-			if($this->datatype === 'pricedeltas')
-			{
-			     $temp->rawnumber =  $catch[4][$i];	
-			}
+			 if ($type === 'active'){
+				  if (strpos($json[$i]->volume, 'M') !== false) {
+                               $volume = str_replace('M', 'm', $json[$i]->volume) * 1000000;
+                  }
 
-			
-			if($this->datatype === 'volumedeltas')
-			{
-			    $temp->rawnumber = str_replace(',', '', $catch[5][$i]);	
-			}      	
-			
-		      */    
+				   if (strpos($json[$i]->volume, 'B') !== false) {
+                               $volume = str_replace('M', 'm', $json[$i]->volume) * 1000000000;
+                  }
+				  $temp->rawnumber = $volume;
+			 } else {
+				  $change = str_replace(array('+','-','%'), array('','',''), $json[$i]->changePercent);
+			      $temp->rawnumber = $change;
+			 }
+
+			            
          
 	        $gls[] = $temp;
         }
