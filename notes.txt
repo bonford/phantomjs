@@ -16,3 +16,10 @@ use old versions of phantomjs and chrome to debug
 
 sample command: C:\xampp\htdocs\phantomjs>c://phantomjsold/phantomjsold --remote-debugger-port=9000  ute.js
 open up chrome browser manually from c://oldchrome/
+
+
+to debug php:
+choose Listen for XDebug configuration
+***make sure xampp is running***   <- important: your php works off xampp
+set breakpoints
+go to localhost url (e.g. 127.0.0.1/phantomjs/ute.php) don't sweat the port #, works without it

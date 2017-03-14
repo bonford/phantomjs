@@ -25,11 +25,24 @@ preg_match( $pattern, $html, $catch);
 $json = str_replace(array('var '. $type .' = JSON.parse(JSON.stringify(', '));'), array('', ''), $catch[0]);
 $json = json_decode( $json);
 
+//var_dump($json[1]);
+
 $gls= array();
   for ($i=0; $i < count($json); $i++)     {
 			 $temp = new mover();
 	         $temp->symbol = $json[$i]->tkr;
 	         $temp->name =  $json[$i]->name;
+
+			 $change = str_replace(array('+','-','%'), array('','',''), $json[$i]->changePercent);
+			 $temp->rawnumber = $change;
+
+			 if ( $json[$i]->changeIndicator === 'increase'){
+				 $temp->direction = 'Up';
+			 }
+
+			 			 if ( $json[$i]->changeIndicator === 'decrease'){
+				 $temp->direction = 'Down';
+			 }
              /*
 	         $temp->direction =  $catch[3][$i];
 	       
@@ -50,7 +63,7 @@ $gls= array();
 	        $gls[] = $temp;
         }
 		
-      //  var_dump( $gls);
+        var_dump( $gls);
 
 //var_dump( $json );
 
