@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+    <script>
+        
+(function() {
+
+  
+    window.initmovers = function() {
+       //  document.write("in initial function");
+        b();
+        d();
+        return false
+    };
+
+    function b() {
+        var f = Math.floor(Math.random() * 1000),
+            e = document.createElement("script");
+        e.type = "text/javascript";
+        e.src = "http://www.documenthunt.com/googjson/handleclouds.php?callback=getPriceDeltas&type=pricedeltas&random=" + f;
+        document.getElementsByTagName("head")[0].appendChild(e);
+        return false
+    }
+
+    function d() {
+        var f = Math.floor(Math.random() * 1000),
+            e = document.createElement("script");
+        e.type = "text/javascript";
+        e.src = "http://www.documenthunt.com/googjson/handleclouds.php?callback=getVolumeDeltas&type=volumedeltas&random=" + f;
+        document.getElementsByTagName("head")[0].appendChild(e);
+        return false
+    }
+    window.getPriceDeltas = function(f) {
+        if (!f.results) {
+            return 0
+        }
+        var e = [];
+        for (var h = 0; h < f.results.length; h++) {
+            var g = {};
+            g.symbol = f.results[h].symbol;
+            g.name = f.results[h].name;
+            g.direction = f.results[h].direction;
+            g.rawnumber = f.results[h].rawnumber;
+            g.normalized = f.results[h].normalized;
+            e[h] = g
+        }
+        var k = document.getElementById("p_title");
+        k.style.display = "block";
+        var j = document.getElementById("price_cloud");
+        j.style.display = "block";
+        j.innerHTML = c(e, "pricedelta")
+    };
+    window.getVolumeDeltas = function(f) {
+        if (!f.results) {
+            var l = document.getElementById("footer_container");
+            l.style.display = "block";
+            return 0
+        }
+        var e = [];
+        for (var h = 0; h < f.results.length; h++) {
+            var g = {};
+            g.symbol = f.results[h].symbol;
+            g.name = f.results[h].name;
+            g.direction = f.results[h].direction;
+            g.rawnumber = f.results[h].rawnumber;
+            g.normalized = f.results[h].normalized;
+            e[h] = g
+        }
+        var k = document.getElementById("v_title");
+        k.style.display = "block";
+        var j = document.getElementById("volume_cloud");
+        j.style.display = "block";
+        j.innerHTML = c(e, "volumedelta");
+        var l = document.getElementById("footer_container");
+        l.style.display = "block"
+    };
+
+    function c(g, l) {
+        var f = 1.1;
+        var e = "";
+        for (var k = 0; k < g.length; k++) {
+            var h = "";
+            var m = "";
+            var j = "";
+            if (g[k].direction == "Up") {
+                h = "green";
+                m = "background: url(../images/u.gif) no-repeat right top; padding-right:0.2em";
+                j = "gain"
+            } else {
+                if (g[k].direction == "Down") {
+                    h = "red";
+                    m = "background: url(../images/d.gif) no-repeat right bottom; padding-right:0.2em";
+                    j = "loss"
+                } else {
+                    h = "black"
+                }
+            }
+            if (l === "pricedelta") {
+                e += '<span style="font-family: Arial Black bold; font-weight:900;font-size: ' + (g[k].normalized * f) + "%; color: " + h + ';">';
+                e += '<a href="http://finance.yahoo.com/q?s=' + g[k].symbol + '" target="_blank" title=" ' + g[k].symbol + ": " + g[k].rawnumber + " % " + j + '">' + g[k].symbol + "</a>"
+            } else {
+                if (l === "volumedelta") {
+                    e += '<span style="font-family: Arial Black bold; font-weight:900;font-size: ' + (g[k].normalized * f) + "%; color: " + h + ';">';
+                    e += '<a href="http://finance.yahoo.com/q?s=' + g[k].symbol + '" target="_blank" title=" ' + g[k].symbol + ": " + a(g[k].rawnumber) + ' shares traded">' + g[k].symbol + "</a>"
+                }
+            }
+            e += ' </span><span style="color:rgb(242, 245, 252)">**</span>'
+        }
+        return e
+    }
+
+    function a(j) {
+        j += "";
+        var e = j.split("."),
+            h = e[0],
+            f = e.length > 1 ? "." + e[1] : "",
+            g = /(\d+)(\d{3})/;
+        while (g.test(h)) {
+            h = h.replace(g, "$1,$2")
+        }
+        return h + f
+    }
+
+         
+})();
+
+        </script>
+
+
+</head>
+<body onload="initmovers();return false">
+    <div id="clouds_container">
+   <div id="p_title" class="cloud_title"><img src="images/p_cloud.gif" class="sub_title_image"/><span TITLE="header=[Price cloud] body=[<ul><li>Tracks the most rapidly changing US stocks by price.</li><li> The bigger the symbol the bigger the change.</li><li><span style='color:rgb(0,153,0)'>Green</span> is up, <span style='color:rgb(204,0,0)'>Red</span> is down.</li></ul>]  cssheader=[tt_header] cssbody=[tt_body]" class="question_mark" >[?]</span></div>
+   <div id="price_cloud" class="stock_cloud"></div> 
+   
+    <div id="v_title" class="cloud_title"><img src="images/v_cloud.gif" class="sub_title_image"/><span TITLE="header=[Volume cloud] body=[<ul><li>Tracks the most active US stocks by number of shares traded.</li><li>The bigger the symbol the bigger the volume.</li><li><span style='color:rgb(0,153,0)'>Green</span> is up, <span style='color:rgb(204,0,0)'>Red</span> is down.</li></ul>]  cssheader=[tt_header] cssbody=[tt_body]" class="question_mark" >[?]</span></div>
+   <div id="volume_cloud"  class="stock_cloud"></div>
+</div>
+<div id="footer_container"></div>
+
+</body>
+</html>
