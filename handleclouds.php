@@ -1,18 +1,8 @@
 <?php /**/ ?><?php
 
-include_once '../../fd_lib/mycurl.php';
-include_once '../../fd_lib/myconfig.php';
 
-    //------------- begin db connection ---------------------------
 
-    $myconfig = new myconfig();
-    $dbhost = $myconfig->getHost();
-    $dbuser = $myconfig->getUser();
-    $dbpass = $myconfig->getPass();
-    $dbname = $myconfig->getName();
-
-    mysql_connect ($dbhost, $dbuser, $dbpass) or die('Connection failed: ' . mysql_error());
-    mysql_select_db ($dbname) or die('Select failed: ' . mysql_error());
+   
 
 
 
@@ -96,10 +86,7 @@ include_once '../../fd_lib/myconfig.php';
 
 
 class dataRipper {
-	//the yahoo urls /*
-	private $url_gainers = 'http://finance.yahoo.com/gainers?e=us';
-	private $url_losers = 'http://finance.yahoo.com/losers?e=us';
-	private $url_movers = 'http://finance.yahoo.com/actives?e=us';
+	
 
 	//private $url_gainers = 'localhost/twitter/clouds/sample_gainers_data.html';
 	//private $url_losers = 'localhost/twitter/clouds/sample_losers_data.html';
@@ -152,13 +139,11 @@ class dataRipper {
     private function getPriceDeltas()
     {
 
-	    $mc = new mycurl(); 
-        $html = $mc->getPage($this->url_gainers);
-        $gainers =$this->getMovers($html);
+	   
+        $gainers =$this->getMovers('gainer');
 
-        $mc = new mycurl(); 
-	    $html = $mc->getPage($this->url_losers);
-        $losers = $this->getMovers($html);
+       
+        $losers = $this->getMovers('loser');
 
 	    if($gainers && $losers)
 	    {
@@ -185,13 +170,12 @@ class dataRipper {
     {
 	  
 	    
-		$mc = new mycurl(); 
-	    $html = $mc->getPage($this->url_movers);
-        $movers = $this->getMovers($html);
+		
+        $movers = $this->getMovers('active');
 	    //var_dump($movers);
       	   
 	    if($movers)
-	    {	
+ 	    {	
 			//sort by volume change
 			usort($movers, array("mover", "cmp_volumes"));			
 			$movers = array_slice($movers, 0, $this->numstocks);
@@ -210,13 +194,7 @@ class dataRipper {
     }	   
    
        
- //   echo $callback . '({"results":' . $data . '});';
-
-   // debug 
-  //  foreach ($gls as $value)
-  //  {
-   // 	echo $value->symbol . "\t" . $value->delta . "\t" . $value->direction . "\n"; 
-  //  }
+ 
    
 
 /**
@@ -231,51 +209,61 @@ class dataRipper {
 /**
  *  the workhorse: rips the data from the page and sends back as array of objects
  */
-    private function getMovers($html, $type = '')
-    { 
-		
-		if(!($this->testHtml($html)))
-			return 0;
+ function getMovers( $type ){
+$url = 'https://www.msn.com/en-us/money/markets/marketmovers';
 
-		$pattern = '/<tr><td[^>]*><b><a[^>]*>([^<]*)<\/a><\/b><\/td><td[^>]*>([^<]*)<\/td><td class="last_trade"><b><span[^>]*>[^<]*<\/span>.*?png".*?alt="([^"]*).*?\(([^\%]*)\%\).*?<span[^>]*>([^<]*)<\/span>/';
-        preg_match_all( $pattern, $html, $catch );
+$html = file_get_contents( $url );
 
-           
-       
-		if(!$catch[1])
-			return 0;
+$pattern = '/var '. $type .'.*?\]\)\);/';
 
-    
-       
- 
-      
-        for ($i=0; $i < count($catch[0]); $i++)
-        {
+preg_match( $pattern, $html, $catch);
+
+$json = str_replace(array('var '. $type .' = JSON.parse(JSON.stringify(', '));'), array('', ''), $catch[0]);
+$json = json_decode( $json);
+
+//var_dump($json[1]);
+
+$gls= array();
+  for ($i=0; $i < count($json); $i++)     {
 			 $temp = new mover();
-	         $temp->symbol = $catch[1][$i];
-	         $temp->name =  $catch[2][$i];;
-	         $temp->direction =  $catch[3][$i];
-	       
-
-			if($this->datatype === 'pricedeltas')
-			{
-			     $temp->rawnumber =  $catch[4][$i];	
-			}
+	         $temp->symbol = $json[$i]->tkr;
+	         $temp->name =  $json[$i]->name;
 
 			
-			if($this->datatype === 'volumedeltas')
-			{
-			    $temp->rawnumber = str_replace(',', '', $catch[5][$i]);	
-			}      	
-			
-		          
-			
+
+			 if ( $json[$i]->changeIndicator === 'increase'){
+				 $temp->direction = 'Up';
+			 }
+
+			 			 if ( $json[$i]->changeIndicator === 'decrease'){
+				 $temp->direction = 'Down';
+			 }
+
+			 if ($type === 'active'){
+				  if (strpos($json[$i]->volume, 'M') !== false) {
+                               $volume = str_replace('M', 'm', $json[$i]->volume) * 1000000;
+                  }
+
+				   if (strpos($json[$i]->volume, 'B') !== false) {
+                               $volume = str_replace('M', 'm', $json[$i]->volume) * 1000000000;
+                  }
+				  $temp->rawnumber = $volume;
+			 } else {
+				  $change = str_replace(array('+','-','%'), array('','',''), $json[$i]->changePercent);
+			      $temp->rawnumber = $change;
+			 }
+
+			            
+         
 	        $gls[] = $temp;
         }
 		
-        return $gls;
-		
-    }
+        //var_dump( $gls);
+		return $gls;
+
+
+
+}
 
 
 /**
@@ -305,8 +293,10 @@ class dataRipper {
     public function updateMoverDb($json)
 	{		
 		$this->datatype == 'pricedeltas' ? $mover_id = 1 : $mover_id = 2;
-		$query = "update movers set json = '" . mysql_real_escape_string($json) . "' where mover_id = " . $mover_id;
-		echo "updateMoverDb query: " . $query . "\n";	    
+		//$query = "update movers set json = '" . mysql_real_escape_string($json) . "' where mover_id = " . $mover_id;
+		$query = "update movers set json = '" . $json . "' where mover_id = " . $mover_id;
+		//echo "<br><br>";
+		//echo "updateMoverDb query: " . $query . "\n";	    
 		//$result = mysql_query($query) or die ('Query failed: ' . mysql_error());      
 	}
 
